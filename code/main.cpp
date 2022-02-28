@@ -36,7 +36,7 @@ int code[NR];
 bool light[10];
 bool digital[35];
 int show_cnt = 0;
-bool show = false;
+bool show = true;
 
 // 输入
 bool key[110];
@@ -231,7 +231,7 @@ void waitfor()
 		if (KEY_DOWN('J'))
 		{
 			pos = 0;
-			show = false;
+			show = true;
 			cnt = 0;
 			digit = false;
 			is_run = true;
@@ -316,6 +316,7 @@ void initialization() // 初始化
 		ofstream out("D:\\Data\\Arceus\\Run.Ceh", ios::binary);
 		MessageBox(0, ((lan == 1) ? ("Arceus 是一个实验性的开源 dp901 模拟器。\n\n这个软件不应用来运行非法取得的操作码。\n\n\"dp901\"是单片机的名称。Arceus与单片机没有任何关系。") : ("Arceus is an experimental open-source emulator for the dp901 singlechip.\n\nThis software should not be used to run codes you have not legally obtained.\n\n\"dp901\" is the name of singlechip. Arceus is not affliated with singlechip in anyway.")), App, MB_OK);
 		MessageBox(0, ((lan == 1) ? ("11-15号按键对应 D R F U J K\n复位键编号为100 对应 N 键") : ("Keys 11-15 correspond to keys D R F U J K\nThe number of reset key is 100, corresponding to n key")), App, MB_OK);
+		MessageBox(0, ((lan == 1) ? ("本程序由 I-LoveCpp 制作") : ("Present By I-LoveCpp")), App, MB_OK);
 		out.close();
 	}
 	in.close();
@@ -1075,12 +1076,11 @@ void system_key()
 void code_00()
 {
 	pos++;
-	if (digit == false)
-	{
-		if (code[pos] > 07 || code[pos] < 00) error((lan == 1) ? ("您指定的LED灯不受支持") : ("The light you specified is not supported!"));
-		light[code[pos]] = true;
-	}
-	else
+
+	if (code[pos] > 07 || code[pos] < 00) error((lan == 1) ? ("您指定的LED灯不受支持") : ("The light you specified is not supported!"));
+	light[code[pos]] = true;
+
+	if (digit == true)
 	{
 		if (code[pos] > 07 || code[pos] < 00) error((lan == 1) ? ("您指定的数码管不受支持") : ("The digital tube you specified is not supported!"));
 		digital[code[pos]] = true;
@@ -1089,12 +1089,11 @@ void code_00()
 void code_01()
 {
 	pos++;
-	if (digit == false)
-	{
-		if (code[pos] > 07 || code[pos] < 00) error((lan == 1) ? ("您指定的LED灯不受支持") : ("The light you specified is not supported!"));
-		light[code[pos]] = false;
-	}
-	else
+
+	if (code[pos] > 07 || code[pos] < 00) error((lan == 1) ? ("您指定的LED灯不受支持") : ("The light you specified is not supported!"));
+	light[code[pos]] = false;
+
+	if (digit == true)
 	{
 		if (code[pos] > 07 || code[pos] < 00) error((lan == 1) ? ("您指定的数码管不受支持") : ("The digital tube you specified is not supported!"));
 		digital[code[pos]] = false;
@@ -1115,13 +1114,14 @@ void code_02()
 	{
 		if (show_c == false)
 		{
+			
 			show_cnt = i;
-			show = true;
 		}
+		
 		begint += value;
 		Sleep((begint > clock()) ? (begint - clock()) : (1));
 	}
-	show = false;
+	
 }
 void code_10()
 {
@@ -1131,11 +1131,15 @@ void code_10()
 void code_05()
 {
 	pos++;
-	if (code[pos] == 02 || code[pos] == 01)
+	if (code[pos] == 02)
 	{
 		digit = true;
 		show = true;
 		show_c = true;
+	}
+	else if (code[pos] == 01)
+	{
+		show = true;
 	}
 	else if (code[pos] == 00)
 	{
@@ -1155,18 +1159,18 @@ void code_04()
 void code_06()
 {
 	pos++;
-	cnt += code[pos];
+	cnt = min(99, cnt + code[pos]);
 	if (show_c == true) show_cnt = cnt;
 }
 void code_07()
 {
 	pos++;
-	cnt -= code[pos];
+	cnt = max(0, cnt - code[pos]);
 	if (show_c == true) show_cnt = cnt;
 }
 void code_12()
 {
-	main_pos = pos;
+	main_pos = pos + 2;
 	pos++;
 	if (code[pos + 1] > all) error((lan == 1) ? ("该地址没有操作码") : ("The address has no opcode!"));
 	else pos = code[pos] - 1;
@@ -1231,6 +1235,8 @@ void code_15()
 	is_run = false;
 	is_edit = true;
 	pos = 0;
+	memset(light, true, sizeof(light));
+	Sleep(50);
 	memset(light, false, sizeof(light));
 }
 void code_14()
@@ -1244,11 +1250,11 @@ void code_14()
 			show = true;
 			show_cnt = 14;
 			memset(light, true, sizeof(light));
-			Sleep(100);
+			Sleep(50);
 			memset(light, false, sizeof(light));
 			Sleep(2000);
 			memset(light, true, sizeof(light));
-			Sleep(100);
+			Sleep(50);
 			memset(light, false, sizeof(light));
 			memset(code, 0, sizeof(code));
 			is_save = true;
