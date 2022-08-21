@@ -5,7 +5,7 @@ using namespace std;
 // 系统
 string Firmware_Version = "13.2.1";
 
-#define Title "Arceus 901"
+#define Title "Arceus 901 v0.9.1"
 #define App "Arceus"
 #define X 960
 #define Y 540
@@ -193,7 +193,7 @@ void standby()
 	digital[30] = true;
 	memset(key, false, sizeof(key));
 	memset(light, false, sizeof(light));
-	while (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('U') || KEY_DOWN('J') || KEY_DOWN('K'))) continue;
+	while (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('I') || KEY_DOWN('J') || KEY_DOWN('K'))) continue;
 	memset(digital, false, sizeof(digital));
 	pos = 0;
 	is_run = false;
@@ -203,7 +203,7 @@ void standby()
 
 void waitfor()
 {
-	if (KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('U') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N')) while (1) if (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('U') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N'))) break;
+	if (KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('I') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N')) while (1) if (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('I') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N'))) break;
 	memset(digital, false, sizeof(digital));
 	digital[3] = true;
 	digital[4] = true;
@@ -315,7 +315,7 @@ void initialization() // 初始化
 		CreateDirectory(_T("D:\\Data\\Arceus\\"), NULL);
 		ofstream out("D:\\Data\\Arceus\\Run.Ceh", ios::binary);
 		MessageBox(0, ((lan == 1) ? ("Arceus 是一个实验性的开源 dp901 模拟器。\n\n这个软件不应用来运行非法取得的操作码。\n\n\"dp901\"是单片机的名称。Arceus与单片机没有任何关系。") : ("Arceus is an experimental open-source emulator for the dp901 singlechip.\n\nThis software should not be used to run codes you have not legally obtained.\n\n\"dp901\" is the name of singlechip. Arceus is not affliated with singlechip in anyway.")), App, MB_OK);
-		MessageBox(0, ((lan == 1) ? ("11-15号按键对应 D R F U J K\n复位键编号为100 对应 N 键") : ("Keys 11-15 correspond to keys D R F U J K\nThe number of reset key is 100, corresponding to n key")), App, MB_OK);
+		MessageBox(0, ((lan == 1) ? ("11-15号按键对应 D R F I J K\n复位键编号为100 对应 N 键") : ("Keys 11-15 correspond to keys D R F I J K\nThe number of reset key is 100, corresponding to n key")), App, MB_OK);
 		MessageBox(0, ((lan == 1) ? ("本程序由 I-LoveCpp 制作") : ("Present By I-LoveCpp")), App, MB_OK);
 		out.close();
 	}
@@ -337,7 +337,7 @@ void input()
 		else key[11] = false;
 		if (KEY_DOWN('F')) key[12] = true;
 		else key[12] = false;
-		if (KEY_DOWN('U')) key[13] = true;
+		if (KEY_DOWN('I')) key[13] = true;
 		else key[13] = false;
 		if (KEY_DOWN('J')) key[14] = true;
 		else key[14] = false;
@@ -347,11 +347,11 @@ void input()
 		{
 			key[100] = true;
 			standby();
-			if (KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('U') ||  KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N'))
+			if (KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('I') ||  KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N'))
 			{
 				while (1)
 				{
-					if (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('U') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N')))
+					if (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('I') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N')))
 					{
 						break;
 					}
@@ -1272,11 +1272,11 @@ void code_03()
 void run()
 {
 	standby();
-	if (KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('U') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N'))
+	if (KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('I') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N'))
 	{
 		while (1)
 		{
-			if (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('U') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N')))
+			if (!(KEY_DOWN('D') || KEY_DOWN('R') || KEY_DOWN('F') || KEY_DOWN('I') || KEY_DOWN('J') || KEY_DOWN('K') || KEY_DOWN('N')))
 			{
 				break;
 			}
